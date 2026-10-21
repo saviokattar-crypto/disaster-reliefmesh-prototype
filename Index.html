@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Disaster ReliefMesh – Prototype</title>
+<style>
+:root{--bg:#eef1f5;--card:#fff;--tx:#14213d;--mut:#5b6678;--pri:#d62828;--ok:#2a9d5c;--bd:#d9dee6;--blue:#2b59c3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1420;--card:#1b2233;--tx:#eef1f7;--mut:#9aa6bb;--bd:#2e374d}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center;padding:16px}
+.phone{width:100%;max-width:380px;min-height:680px;background:var(--card);border:1px solid var(--bd);border-radius:28px;padding:22px;display:flex;flex-direction:column}
+.screen{display:none;flex-direction:column;gap:14px;flex:1}.screen.on{display:flex}
+h1{font-size:22px;margin:0}h2{font-size:19px;margin:0}p{margin:0;color:var(--mut);font-size:14px}
+.badge{font-size:12px;color:var(--mut)}
+.btn{background:var(--pri);color:#fff;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:600;cursor:pointer;width:100%}
+.btn.sec{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+label{font-size:13px;color:var(--mut);display:block;margin-bottom:4px}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--bd);border-radius:10px;background:transparent;color:var(--tx);font:inherit}
+.row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--bd);padding:9px 0;font-size:14px}.row b{text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--bd);border-radius:20px;padding:8px 12px;font-size:14px;cursor:pointer;background:transparent;color:var(--tx)}
+.chip.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.status{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ok);justify-content:center}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ok)}.dot.off{background:#e0a100}
+.sos{width:170px;height:170px;border-radius:50%;background:var(--pri);color:#fff;font-size:38px;font-weight:800;border:0;margin:auto;cursor:pointer;box-shadow:0 0 0 14px rgba(214,40,40,.18)}
+.big{font-size:52px;text-align:center}.id{font-size:22px;font-weight:700;text-align:center}
+.step{display:flex;gap:10px;align-items:center;font-size:14px;padding:6px 0}.tick{width:22px;height:22px;border-radius:50%;background:var(--ok);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none}
+.tick.p{background:transparent;border:2px solid var(--bd);color:var(--mut)}
+.sp{flex:1}
+</style></head><body>
+<div class="phone">
+
+<div class="screen on" id="s1">
+ <div class="badge">Screen 1 · Register / Login</div><div class="sp"></div>
+ <div class="big">📡</div><h1 style="text-align:center">Disaster ReliefMesh</h1>
+ <p style="text-align:center">Offline emergency communication using a Bluetooth (BLE) mesh.</p>
+ <div><label>Name</label><input value="Savio Kattar"></div>
+ <div><label>Mobile number</label><input value="+91 98XXXXXX10"></div>
+ <div class="sp"></div>
+ <button class="btn" onclick="go(2)">Login / Register</button>
+</div>
+
+<div class="screen" id="s2">
+ <div class="badge">Screen 2 · Home – SOS</div>
+ <h2>Hello, Savio</h2>
+ <div class="status"><span class="dot"></span>BLE mesh active · 5 nearby devices</div>
+ <div class="status" style="color:#e0a100"><span class="dot off"></span>Internet: offline (using mesh)</div>
+ <div class="sp"></div>
+ <button class="sos" onclick="go(3)">SOS</button>
+ <p style="text-align:center">Press in case of emergency</p>
+ <div class="sp"></div>
+ <div class="chips" style="justify-content:center"><span class="chip">🗺 Offline Map</span><span class="chip">💬 BLE Chat</span><span class="chip">📋 Nearby Issues</span></div>
+</div>
+
+<div class="screen" id="s3">
+ <div class="badge">Screen 3 · SOS Details</div>
+ <h2>Emergency details</h2>
+ <div><label>Type</label>
+  <div class="chips" id="types"><button class="chip on">🌊 Flood</button><button class="chip">🏥 Medical</button><button class="chip">🔥 Fire</button><button class="chip">🆘 Trapped</button></div></div>
+ <div><label>People affected</label><select id="f-ppl"><option>1</option><option>2–5</option><option>6–10</option><option>10+</option></select></div>
+ <div><label>Approx. location</label><input id="f-loc" value="📍 Bhandup, Mumbai (approx.)"></div>
+ <div><label>Note (optional)</label><textarea id="f-note" rows="3">Water rising, need evacuation.</textarea></div>
+ <div class="sp"></div>
+ <button class="btn" onclick="review()">Review SOS</button>
+</div>
+
+<div class="screen" id="s4">
+ <div class="badge">Screen 4 · Review &amp; Broadcast</div>
+ <h2>Confirm your SOS</h2>
+ <div id="rev"></div>
+ <p>Your SOS will be broadcast to nearby devices through the BLE mesh and forwarded until it reaches a gateway.</p>
+ <div class="sp"></div>
+ <button class="btn" onclick="go(5)">Broadcast via BLE Mesh</button>
+ <button class="btn sec" onclick="go(3)">Edit</button>
+</div>
+
+<div class="screen" id="s5">
+ <div class="badge">Screen 5 · SOS Status</div>
+ <div class="big">✅</div><h2 style="text-align:center">SOS Sent</h2>
+ <div class="id">SOS-0421-C26</div>
+ <div style="margin-top:6px">
+  <div class="step"><span class="tick">✓</span>Created</div>
+  <div class="step"><span class="tick">✓</span>Relayed via 3 mesh nodes</div>
+  <div class="step"><span class="tick">✓</span>Delivered to gateway &amp; server</div>
+  <div class="step"><span class="tick">✓</span>Verified by admin</div>
+  <div class="step"><span class="tick p">…</span>Rescue team on the way</div>
+  <div class="step"><span class="tick p">…</span>Resolved</div>
+ </div>
+ <div class="sp"></div>
+ <button class="btn" onclick="go(2)">Return to Home</button>
+</div>
+
+</div>
+<script>
+function go(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));document.getElementById('s'+n).classList.add('on')}
+document.querySelectorAll('#types .chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('#types .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on')});
+function review(){
+ const g=id=>document.getElementById(id).value;
+ const rows=[['Type',document.querySelector('#types .on').textContent],['People',g('f-ppl')],['Location',g('f-loc')],['Note',g('f-note')],['Sent via','BLE Mesh']];
+ const box=document.getElementById('rev');box.innerHTML='';
+ rows.forEach(r=>{const d=document.createElement('div');d.className='row';const a=document.createElement('span');a.textContent=r[0];const b=document.createElement('b');b.textContent=r[1];d.append(a,b);box.append(d)});
+ go(4)}
+</script>
+</body></html>
