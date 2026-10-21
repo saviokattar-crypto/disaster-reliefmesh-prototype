@@ -6,8 +6,8 @@
 :root{--bg:#eef1f5;--card:#fff;--tx:#14213d;--mut:#5b6678;--pri:#d62828;--ok:#2a9d5c;--bd:#d9dee6;--blue:#2b59c3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1420;--card:#1b2233;--tx:#eef1f7;--mut:#9aa6bb;--bd:#2e374d}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center;padding:16px}
-.phone{width:100%;max-width:380px;min-height:680px;background:var(--card);border:1px solid var(--bd);border-radius:28px;padding:22px;display:flex;flex-direction:column}
-.screen{display:none;flex-direction:column;gap:14px;flex:1}.screen.on{display:flex}
+.phone{width:100%;max-width:380px;min-height:680px;max-height:85vh;background:var(--card);border:1px solid var(--bd);border-radius:28px;padding:22px;display:flex;flex-direction:column;overflow:hidden}
+.screen{display:none;flex-direction:column;gap:12px;flex:1;overflow-y:auto;padding-right:2px}.screen.on{display:flex}
 h1{font-size:22px;margin:0}h2{font-size:19px;margin:0}p{margin:0;color:var(--mut);font-size:14px}
 .badge{font-size:12px;color:var(--mut)}
 .btn{background:var(--pri);color:#fff;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:600;cursor:pointer;width:100%}
@@ -20,8 +20,8 @@ input,select,textarea{width:100%;padding:11px;border:1px solid var(--bd);border-
 .chip.on{background:var(--pri);color:#fff;border-color:var(--pri)}
 .status{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ok);justify-content:center}
 .dot{width:9px;height:9px;border-radius:50%;background:var(--ok)}.dot.off{background:#e0a100}
-.sos{width:170px;height:170px;border-radius:50%;background:var(--pri);color:#fff;font-size:38px;font-weight:800;border:0;margin:auto;cursor:pointer;box-shadow:0 0 0 14px rgba(214,40,40,.18)}
-.big{font-size:52px;text-align:center}.id{font-size:22px;font-weight:700;text-align:center}
+.sos{width:150px;height:150px;border-radius:50%;background:var(--pri);color:#fff;font-size:36px;font-weight:800;border:0;margin:auto;cursor:pointer;box-shadow:0 0 0 12px rgba(214,40,40,.18)}
+.big{font-size:48px;text-align:center}.id{font-size:22px;font-weight:700;text-align:center}
 .step{display:flex;gap:10px;align-items:center;font-size:14px;padding:6px 0}.tick{width:22px;height:22px;border-radius:50%;background:var(--ok);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none}
 .tick.p{background:transparent;border:2px solid var(--bd);color:var(--mut)}
 .sp{flex:1}
@@ -43,10 +43,8 @@ input,select,textarea{width:100%;padding:11px;border:1px solid var(--bd);border-
  <h2>Hello, Savio</h2>
  <div class="status"><span class="dot"></span>BLE mesh active · 5 nearby devices</div>
  <div class="status" style="color:#e0a100"><span class="dot off"></span>Internet: offline (using mesh)</div>
- <div class="sp"></div>
  <button class="sos" onclick="go(3)">SOS</button>
  <p style="text-align:center">Press in case of emergency</p>
- <div class="sp"></div>
  <div class="chips" style="justify-content:center"><span class="chip">🗺 Offline Map</span><span class="chip">💬 BLE Chat</span><span class="chip">📋 Nearby Issues</span></div>
  <button class="btn sec" onclick="go(1)">← Back</button>
 </div>
@@ -59,7 +57,6 @@ input,select,textarea{width:100%;padding:11px;border:1px solid var(--bd);border-
  <div><label>People affected</label><select id="f-ppl"><option>1</option><option>2–5</option><option>6–10</option><option>10+</option></select></div>
  <div><label>Approx. location</label><input id="f-loc" value="📍 Bhandup, Mumbai (approx.)"></div>
  <div><label>Note (optional)</label><textarea id="f-note" rows="3">Water rising, need evacuation.</textarea></div>
- <div class="sp"></div>
  <button class="btn" onclick="review()">Review SOS</button>
  <button class="btn sec" onclick="go(2)">← Back</button>
 </div>
@@ -69,7 +66,6 @@ input,select,textarea{width:100%;padding:11px;border:1px solid var(--bd);border-
  <h2>Confirm your SOS</h2>
  <div id="rev"></div>
  <p>Your SOS will be broadcast to nearby devices through the BLE mesh and forwarded until it reaches a gateway.</p>
- <div class="sp"></div>
  <button class="btn" onclick="go(5)">Broadcast via BLE Mesh</button>
  <button class="btn sec" onclick="go(3)">← Back</button>
 </div>
@@ -86,9 +82,8 @@ input,select,textarea{width:100%;padding:11px;border:1px solid var(--bd);border-
   <div class="step"><span class="tick p">…</span>Rescue team on the way</div>
   <div class="step"><span class="tick p">…</span>Resolved</div>
  </div>
- <div class="sp"></div>
  <button class="btn" onclick="go(2)">Return to Home</button>
- <button class="btn sec" style="margin-top:8px" onclick="go(4)">← Back</button>
+ <button class="btn sec" onclick="go(4)">← Back</button>
 </div>
 
 </div>
